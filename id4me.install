@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Id4me module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function id4me_schema() {
+  $schema['id4me_authmap'] = [
+    'description' => 'Stores remote to local authentication mapping.',
+    'fields' => [
+      'aid' => [
+        'description' => 'Primary Key: Unique authmap ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "User's {users}.uid.",
+      ],
+      'client_name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'The client name.',
+      ],
+      'sub' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Unique subject identifier.',
+      ],
+    ],
+    'primary key' => ['aid'],
+    'indexes' => [
+      'uid' => ['uid'],
+      'identifier' => ['client_name', 'sub'],
+    ],
+    'foreign keys' => [
+      'user' => [
+        'table' => 'users',
+        'columns' => ['uid' => 'uid'],
+      ],
+    ],
+  ];
+  return $schema;
+}

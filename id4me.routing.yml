@@ -1,0 +1,7 @@
+id4me.authorize:
+  path: '/id4me/authorize'
+  defaults:
+    _title: 'Authorize'
+    _controller: '\Drupal\id4me\Controller\RedirectController::authenticate'
+  requirements:
+    _custom_access: '\Drupal\id4me\Controller\RedirectController::access'

@@ -1,0 +1,14 @@
+{
+    "name": "drupal/id4me",
+    "type": "drupal-module",
+    "license": "GPL-2-or-later",
+    "authors": [
+        {
+            "name": "Stefan Auditor",
+            "email": "stefan.auditor@erdfisch.de"
+        }
+    ],
+    "require": {
+        "id4me/id4me-rp": "^1.2"
+    }
+}

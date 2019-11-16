@@ -1,0 +1,7 @@
+services:
+  id4me:
+    class: Drupal\id4me\Id4meService
+    arguments: []
+  id4me.authmap:
+    class: Drupal\id4me\Authmap
+    arguments: ["@database"]
