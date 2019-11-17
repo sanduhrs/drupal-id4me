@@ -1,6 +1,6 @@
 name: ID4me
 type: module
-description: The description.
-package: Custom
+description: An open, public standard that allows you to move your data to any compatible provider.
+package: User Access & Authentication
 core: 8.x
 core_version_requirement: ^8 || ^9
