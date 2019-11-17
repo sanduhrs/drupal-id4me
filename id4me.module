@@ -1,0 +1,42 @@
+<?php
+
+use Drupal\id4me\StateToken;
+
+/**
+ * @file
+ * Primary module hooks for ID4me module.
+ */
+
+function id4me_menu() {
+  $items['id4me/authorize'] = array(
+    'title' => 'Authorize',
+    'page callback' => 'example_page',
+    'access callback' => 'id4me_authorize_access',
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function id4me_authorize_access() {
+  $params = drupal_get_query_parameters();
+  $state_token = $params['state'];
+  if ($state_token && StateToken::confirm($state_token)) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Returns a URL-safe, base64 encoded string of highly randomized bytes.
+ *
+ * @param $count
+ *   The number of random bytes to fetch and base64 encode.
+ *
+ * @return string
+ *   The base64 encoded result will have a length of up to 4 * $count.
+ *
+ * @throws Exception
+ */
+function random_bytes_base64($count = 32) {
+  return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(random_bytes($count)));
+}

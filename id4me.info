@@ -1,0 +1,11 @@
+name = ID4me
+description = An open, public standard that allows you to move your data to any compatible provider.
+package = User Access & Authentication
+core = 7.x
+
+dependencies[] = composer_manager
+
+files[] = src/Authmap.php
+files[] = src/HttpClient.php
+files[] = src/Id4meService.php
+files[] = src/StateToken.php
