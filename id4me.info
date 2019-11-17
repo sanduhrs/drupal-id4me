@@ -3,7 +3,7 @@ description = An open, public standard that allows you to move your data to any 
 package = User Access & Authentication
 core = 7.x
 
-dependencies[] = composer_manager
+dependencies[] = composer_autoloader
 
 files[] = src/Authmap.php
 files[] = src/HttpClient.php
