@@ -1,7 +1,5 @@
 <?php
 
-namespace Drupal\id4me;
-
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Url;
 use GuzzleHttp\Client;

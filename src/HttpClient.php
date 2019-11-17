@@ -1,7 +1,5 @@
 <?php
 
-namespace Drupal\id4me;
-
 use Id4me\RP\HttpClient as HttpClientInterface;
 
 /**

@@ -7,5 +7,4 @@ dependencies[] = composer_autoloader
 
 files[] = src/Authmap.php
 files[] = src/HttpClient.php
-files[] = src/Id4meService.php
 files[] = src/StateToken.php

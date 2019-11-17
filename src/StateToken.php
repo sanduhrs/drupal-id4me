@@ -1,7 +1,5 @@
 <?php
 
-namespace Drupal\id4me;
-
 /**
  * Class StateToken.
  *

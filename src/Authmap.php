@@ -1,7 +1,5 @@
 <?php
 
-namespace Drupal\id4me;
-
 /**
  * Class Authmap.
  *
@@ -25,7 +23,7 @@ class Authmap {
    */
   public function createAssociation($account, $client_name, $sub) {
     $fields = [
-      'uid' => $account->id(),
+      'uid' => $account->uid,
       'client_name' => $client_name,
       'sub' => $sub,
     ];
@@ -59,7 +57,7 @@ class Authmap {
    * @param string $client_name
    *   The client name.
    *
-   * @return string|false
+   * @return stdClass|false
    *   A user account object or FALSE
    */
   public function userLoadBySub($sub, $client_name) {
