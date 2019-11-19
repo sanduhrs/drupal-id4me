@@ -24,7 +24,7 @@ class LoginForm extends FormBase implements ContainerInjectionInterface {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['identifier'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Identifier'),
+      '#title' => $this->t('Enter your Identifier'),
       '#required' => TRUE,
     ];
     $form['actions'] = [
@@ -32,18 +32,10 @@ class LoginForm extends FormBase implements ContainerInjectionInterface {
     ];
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Login'),
+      '#value' => $this->t('Login with ID4me'),
     ];
+    $form['#attached']['library'][] = 'id4me/id4me';
     return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    if (mb_strlen($form_state->getValue('identifier')) < 10) {
-      $form_state->setErrorByName('name', $this->t('Message should be at least 10 characters.'));
-    }
   }
 
   /**

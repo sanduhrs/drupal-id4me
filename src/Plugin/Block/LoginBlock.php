@@ -6,8 +6,10 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormBuilder;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -24,7 +26,7 @@ class LoginBlock extends BlockBase implements ContainerFactoryPluginInterface {
   /**
    * The immutable configuration object.
    *
-   * @var ImmutableConfig
+   * @var \Drupal\Core\Config\ImmutableConfig
    */
   protected $config;
 
@@ -90,8 +92,46 @@ class LoginBlock extends BlockBase implements ContainerFactoryPluginInterface {
   /**
    * {@inheritdoc}
    */
+  public function defaultConfiguration() {
+    return [
+      'show_link' => $this->t('Show login link'),
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockForm($form, FormStateInterface $form_state) {
+    $form['show_link'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show login link'),
+      '#default_value' => $this->configuration['show_link'],
+    ];
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->configuration['show_link'] = $form_state->getValue('show_link');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function build() {
-    return $this->formBuilder->getForm('Drupal\id4me\Form\LoginForm');;
+    $form = $this->formBuilder->getForm('Drupal\id4me\Form\LoginForm');
+    $form['identifier']['#size'] = 15;
+    if ($this->configuration['show_link']) {
+      $form['login'] = [
+        '#type' => 'link',
+        '#title' => $this->t('Log in with Drupal'),
+        '#url' => Url::fromRoute('user.login'),
+        '#weight' => 100,
+      ];
+    }
+    return $form;
   }
 
 }

@@ -144,7 +144,8 @@ class Id4meService {
   public function register() {
     $this->openidConfig = $this->id4Me->getOpenIdConfig($this->authorityName);
     $this->client = $this->id4Me->register(
-      $this->openidConfig, $this->identifier,
+      $this->openidConfig,
+      $this->identifier,
       Url::fromUserInput('/id4me/authorize', ['absolute' => TRUE])->toString()
     );
     return $this;
@@ -186,7 +187,7 @@ class Id4meService {
    * @param string $code
    *   The authorization code.
    *
-   * @return \Drupal\id4me\AuthorizationTokens|\Id4me\RP\Model\AuthorizationTokens
+   * @return \Id4me\RP\Model\AuthorizationTokens
    *   The authorization tokens.
    *
    * @throws \Id4me\RP\Exception\InvalidAuthorityIssuerException

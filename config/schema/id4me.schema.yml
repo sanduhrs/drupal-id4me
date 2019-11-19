@@ -1,0 +1,7 @@
+block.settings.id4me_login:
+  type: block_settings
+  label: 'Login block'
+  mapping:
+    show_link:
+      type: boolean
+      label: Show login link
