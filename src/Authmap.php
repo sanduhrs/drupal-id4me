@@ -36,15 +36,16 @@ class Authmap {
    *
    * @param object $account
    *   A user account object.
-   * @param string $client_name
-   *   The client name.
+   * @param string $iss
+   *   The issuer identifier.
    * @param string $sub
    *   The remote subject identifier.
+   * @throws \Exception
    */
-  public function createAssociation($account, $client_name, $sub) {
+  public function createAssociation($account, $iss, $sub) {
     $fields = [
       'uid' => $account->id(),
-      'client_name' => $client_name,
+      'iss' => $iss,
       'sub' => $sub,
     ];
     $this->connection->insert(self::DATABASE_TABLE)
@@ -57,14 +58,14 @@ class Authmap {
    *
    * @param int $uid
    *   A user id.
-   * @param string $client_name
-   *   A client name.
+   * @param string $iss
+   *   A issuer identifier.
    */
-  public function deleteAssociation($uid, $client_name = '') {
+  public function deleteAssociation($uid, $iss = '') {
     $query = $this->connection->delete(self::DATABASE_TABLE)
       ->condition('uid', $uid);
-    if (!empty($client_name)) {
-      $query->condition('client_name', $client_name, '=');
+    if (!empty($iss)) {
+      $query->condition('iss', $iss, '=');
     }
     $query->execute();
   }
@@ -74,16 +75,16 @@ class Authmap {
    *
    * @param string $sub
    *   The remote subject identifier.
-   * @param string $client_name
-   *   The client name.
+   * @param string $iss
+   *   The issuer identifier.
    *
    * @return \Drupal\Core\Entity\EntityInterface|false
    *   A user account object or FALSE
    */
-  public function userLoadBySub($sub, $client_name) {
+  public function userLoadBySub($sub, $iss) {
     $result = $this->connection->select(self::DATABASE_TABLE, 'a')
       ->fields('a', ['uid'])
-      ->condition('client_name', $client_name, '=')
+      ->condition('iss', $iss, '=')
       ->condition('sub', $sub, '=')
       ->execute();
     foreach ($result as $record) {
@@ -106,14 +107,14 @@ class Authmap {
    */
   public function getConnectedAccounts($account) {
     $result = $this->connection->select(self::DATABASE_TABLE, 'a')
-      ->fields('a', ['client_name', 'sub'])
+      ->fields('a', ['iss', 'sub'])
       ->condition('uid', $account->id())
       ->execute();
     $authmaps = [];
     foreach ($result as $record) {
-      $client = $record->client_name;
+      $iss = $record->iss;
       $sub = $record->sub;
-      $authmaps[$client] = $sub;
+      $authmaps[$iss] = $sub;
     }
     return $authmaps;
   }

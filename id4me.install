@@ -24,12 +24,12 @@ function id4me_schema() {
         'default' => 0,
         'description' => "User's {users}.uid.",
       ],
-      'client_name' => [
+      'iss' => [
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
         'default' => '',
-        'description' => 'The client name.',
+        'description' => 'The issuer identifier.',
       ],
       'sub' => [
         'type' => 'varchar',
@@ -42,7 +42,7 @@ function id4me_schema() {
     'primary key' => ['aid'],
     'indexes' => [
       'uid' => ['uid'],
-      'identifier' => ['client_name', 'sub'],
+      'identifier' => ['iss', 'sub'],
     ],
     'foreign keys' => [
       'user' => [

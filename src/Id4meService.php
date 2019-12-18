@@ -29,21 +29,21 @@ class Id4meService {
   protected $identifier;
 
   /**
-   * The OpenID Config Data.
+   * The OpenID config data.
    *
    * @var \Id4me\RP\Model\OpenIdConfig
    */
   protected $openidConfig;
 
   /**
-   * Te authority name.
+   * The authority name.
    *
    * @var string
    */
   protected $authorityName;
 
   /**
-   * The OpenId Client Data.
+   * The OpenId client.
    *
    * @var \Id4me\RP\Model\Client
    */
@@ -57,9 +57,9 @@ class Id4meService {
   protected $state;
 
   /**
-   * The auth tokens.
+   * The authorization tokens.
    *
-   * @var AuthorizationTokens
+   * @var \Id4me\RP\Model\AuthorizationTokens
    */
   protected $authorizationTokens;
 
