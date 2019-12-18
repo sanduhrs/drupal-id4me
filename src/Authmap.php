@@ -39,7 +39,7 @@ class Authmap {
    * @param string $iss
    *   The issuer identifier.
    * @param string $sub
-   *   The remote subject identifier.
+   *   The subject identifier.
    * @throws \Exception
    */
   public function createAssociation($account, $iss, $sub) {
@@ -73,15 +73,15 @@ class Authmap {
   /**
    * Loads a user based on a sub-id and a login provider.
    *
-   * @param string $sub
-   *   The remote subject identifier.
    * @param string $iss
    *   The issuer identifier.
+   * @param string $sub
+   *   The subject identifier.
    *
    * @return \Drupal\Core\Entity\EntityInterface|false
    *   A user account object or FALSE
    */
-  public function userLoadBySub($sub, $iss) {
+  public function userLoadByIdentifier($iss, $sub) {
     $result = $this->connection->select(self::DATABASE_TABLE, 'a')
       ->fields('a', ['uid'])
       ->condition('iss', $iss, '=')

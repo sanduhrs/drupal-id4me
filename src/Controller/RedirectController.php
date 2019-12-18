@@ -114,7 +114,10 @@ class RedirectController extends ControllerBase {
 
       /** @var \Drupal\id4me\Authmap $authmapService */
       $authmapService = \Drupal::service('id4me.authmap');
-      $account = $authmapService->userLoadBySub($userInfo->getSub(), 'id4me');
+      $account = $authmapService->userLoadByIdentifier(
+        $authorizationTokens->getIdTokenDecoded()->getIss(),
+        $authorizationTokens->getIdTokenDecoded()->getSub()
+      );
       if (\Drupal::currentUser()->isAuthenticated() || !$account) {
         $account = User::create([
           'name' => $userInfo->getPreferredUsername(),
@@ -124,8 +127,8 @@ class RedirectController extends ControllerBase {
         $account->save();
         $authmapService->createAssociation(
           $account,
-          'id4me',
-          $authorizationTokens->getIdTokenDecoded()->getIss() . '#' . $authorizationTokens->getIdTokenDecoded()->getSub()
+          $authorizationTokens->getIdTokenDecoded()->getIss(),
+          $authorizationTokens->getIdTokenDecoded()->getSub()
         );
         user_login_finalize($account);
       }
