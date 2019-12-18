@@ -146,8 +146,9 @@ class Id4meService {
     else {
       $this->openidConfig = $this->id4Me->getOpenIdConfig($this->authorityName);
       $this->client = $this->id4Me->register(
-        $this->openidConfig, $this->identifier,
-        Url::fromUserInput('/id4me/authorize', ['absolute' => TRUE])->toString()
+        $this->openidConfig,
+        variable_get('site_name', ''),
+        url('/id4me/authorize', ['absolute' => TRUE])
       );
       cache_set($this->authorityName, $this->client, 'id4me');
     }
