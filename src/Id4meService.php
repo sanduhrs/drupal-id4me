@@ -140,11 +140,17 @@ class Id4meService {
    *   An invalid InvalidAuthorityIssuerException exception.
    */
   public function register() {
-    $this->openidConfig = $this->id4Me->getOpenIdConfig($this->authorityName);
-    $this->client = $this->id4Me->register(
-      $this->openidConfig, $this->identifier,
-      Url::fromUserInput('/id4me/authorize', ['absolute' => TRUE])->toString()
-    );
+    if ($cache = cache_get($this->authorityName, 'id4me')) {
+      $this->client = $cache->data;
+    }
+    else {
+      $this->openidConfig = $this->id4Me->getOpenIdConfig($this->authorityName);
+      $this->client = $this->id4Me->register(
+        $this->openidConfig, $this->identifier,
+        Url::fromUserInput('/id4me/authorize', ['absolute' => TRUE])->toString()
+      );
+      cache_set($this->authorityName, $this->client, 'id4me');
+    }
     return $this;
   }
 
