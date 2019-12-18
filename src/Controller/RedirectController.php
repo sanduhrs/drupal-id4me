@@ -108,9 +108,8 @@ class RedirectController extends ControllerBase {
       // Process the login or connect operations.
       /** @var \Drupal\id4me\Id4meService $id4meService */
       $id4meService = \Drupal::service('id4me');
-      $id4meService
-        ->setState($query->get('state'))
-        ->getAuthorizationTokens($query->get('code'));
+      $id4meService->setState($query->get('state'));
+      $authorizationTokens = $id4meService->getAuthorizationTokens($query->get('code'));
       $userInfo = $id4meService->getUserInfo();
 
       /** @var \Drupal\id4me\Authmap $authmapService */
@@ -123,7 +122,11 @@ class RedirectController extends ControllerBase {
           'status' => 1,
         ]);
         $account->save();
-        $authmapService->createAssociation($account, 'id4me', $userInfo->getSub());
+        $authmapService->createAssociation(
+          $account,
+          'id4me',
+          $authorizationTokens->getIdTokenDecoded()->getIss() . '#' . $authorizationTokens->getIdTokenDecoded()->getSub()
+        );
         user_login_finalize($account);
       }
       elseif ($account instanceof UserInterface) {
