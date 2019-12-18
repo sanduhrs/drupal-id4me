@@ -179,7 +179,11 @@ function id4me_authorize() {
         'status' => 1,
         'init' => $user_info->getEmail(),
       ]);
-      $authmap->createAssociation($account, 'id4me', $user_info->getSub());
+      $authmap->createAssociation(
+        $account,
+        'id4me',
+        $authorization_tokens->getIdTokenDecoded()->getIss() . '#' . $authorization_tokens->getIdTokenDecoded()->getSub()
+      );
       // Reload $account in case it has been altered in a user hook elsewhere.
       $user = user_load($account->uid);
       user_login_finalize();
