@@ -142,7 +142,7 @@ class Id4meService {
    *   An invalid InvalidAuthorityIssuerException exception.
    */
   public function register() {
-    if ($cache = \Drupal::cache('id4me')->get($this->authorityName)) {
+    if ($cache = \Drupal::cache()->get('id4me-' . $this->authorityName)) {
       $this->client = $cache->data;
     }
     else {
@@ -152,7 +152,7 @@ class Id4meService {
         \Drupal::config('system.site')->get('name'),
         Url::fromUserInput('/id4me/authorize', ['absolute' => TRUE])->toString()
       );
-      \Drupal::cache('id4me')->set($this->authorityName, $this->client);
+      \Drupal::cache()->set('id4me-' . $this->authorityName, $this->client);
     }
     return $this;
   }
